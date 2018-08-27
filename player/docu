@@ -1,0 +1,11 @@
+****
+*run our script and instantiate the Flask serever with simple Hello World text
+***
+
+sudo python helloWorld.py
+
+***
+* run radio paradise
+***
+
+mplayer http://stream-uk1.radioparadise.com/mp3-192
