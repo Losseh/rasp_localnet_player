@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<style>
+button {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 32px;
+  font-family: verdana;
+}
+
+body {
+  background-color: grey;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+  font-size: 26px;
+}
+
+p {
+  color: white;
+  font-family: verdana;
+  font-size: 22px;
+}
+</style>
+
+
+
+<html>
+  <head>
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <h1>Hello, World!</h1>
+    <h2>The date and time on the server is: {{ time }}</h2>
+
+    <h1>Volume control</h1>
+    
+    <p align="center">Current volume: {{ volume }}</p>
+
+    <form action="/volume_up/" method="post">
+      <button name="volumeUpBtn" type="submit">Volume Up</button>
+    </form>
+
+    <form action="/volume_down/" method="post">
+      <button name="volumeDownBtn" type="submit">Volume Down</button>
+    </form>
+  </body>
+</html>
