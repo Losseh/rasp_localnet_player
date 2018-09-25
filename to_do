@@ -1,4 +1,14 @@
 - buttons should definitely not refresh our site
 - css for buttons
+- automount for ANY USB
 
-- raspberry okropnie szumi przy odtwarzaniu dzwieku. Zrabane wejscie liniowe?
+options to find devices:
+
+dh -aTh
+sudo fdisk -l
+lsblk -f
+ls -la /dev/disk/by-uuid
+
+should edit /etc/fstab
+
+sudo mount -a

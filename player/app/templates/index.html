@@ -35,19 +35,20 @@ p {
     <title>{{ title }}</title>
   </head>
   <body>
-    <h1>Hello, World!</h1>
-    <h2>The date and time on the server is: {{ time }}</h2>
+    <h1>Radio control</h1>
+    <p align="center">
+      Music status: {{ music_state }}<br>
+      <form action="/run_radio/" method="post">
+        <button name="runRadioBtn" type="submit">Run radio</button>
+      </form>
 
-    <h1>Volume control</h1>
-    
-    <p align="center">Current volume: {{ volume }}</p>
+      <form action="/run_source1/" method="post">
+        <button name="runSource1Btn" type="submit">Run source1</button>
+      </form>
 
-    <form action="/volume_up/" method="post">
-      <button name="volumeUpBtn" type="submit">Volume Up</button>
-    </form>
-
-    <form action="/volume_down/" method="post">
-      <button name="volumeDownBtn" type="submit">Volume Down</button>
-    </form>
+      <form action="/stop_music/" method="post">
+        <button name="stopMusicBtn" type="submit">Stop music</button>
+      </form>
+    </p>
   </body>
 </html>
