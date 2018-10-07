@@ -3,4 +3,4 @@
 # 400 - max
 DIR="$(cd "$(dirname "$0")" && pwd)"
 echo $1 > "${DIR}/volume"
-echo $1 >> "${DIR}/log"
+echo $1 | sed 's/\%//g' >> "${DIR}/log"

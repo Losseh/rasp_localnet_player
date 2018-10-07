@@ -1,3 +1,6 @@
+- log last 10 played songs
+- there's a bug - when we start source play, we must refresh a site to make mplayer show the current songname
+- get the title of radio paradise song
 - buttons should definitely not refresh our site
 - css for buttons
 - automount for ANY USB
@@ -12,3 +15,7 @@ ls -la /dev/disk/by-uuid
 should edit /etc/fstab
 
 sudo mount -a
+
+mplayer vs slave mode?
+mplayer -slave -input file="./mplayer_commands" -idle -shuffle -playlist playlist &
+

@@ -9,3 +9,9 @@ sudo python helloWorld.py
 ***
 
 mplayer http://stream-uk1.radioparadise.com/mp3-192
+
+
+nmap -sP 192.168.0.0/24
+
+usually:
+192.168.0.52

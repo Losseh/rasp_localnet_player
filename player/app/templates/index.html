@@ -38,6 +38,7 @@ p {
     <h1>Radio control</h1>
     <p align="center">
       Music status: {{ music_state }}<br>
+      Currently playing: {{ song_name }}<br>
       <form action="/run_radio/" method="post">
         <button name="runRadioBtn" type="submit">Run radio</button>
       </form>
@@ -50,5 +51,17 @@ p {
         <button name="stopMusicBtn" type="submit">Stop music</button>
       </form>
     </p>
+    <h1>Volume control</h1>
+    <p align="center">
+      Music volume: {{ volume }}<br>
+      <form action="/volume_up/" method="post">
+        <button name="volumeUpBtn" type="submit">Vol++</button>
+      </form>
+
+      <form action="/volume_down/" method="post">
+        <button name="volumeDownBtn" type="submit">Vol--</button>
+      </form>
+    </p>
+
   </body>
 </html>

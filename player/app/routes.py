@@ -4,6 +4,7 @@ from config import app_config
 import datetime
 import subprocess
 import re
+import time
 
 class State:
   def __init__(self):
@@ -15,7 +16,6 @@ state = State()
 
 @app.route('/')
 def index():
-  set_volume(100)
   templateData = get_index_arguments()
   return render_template('index.html', **templateData)
 
@@ -42,6 +42,16 @@ def stop_radio():
   state.source1 = False
   return redirect('/')
 
+@app.route('/volume_up/', methods=['POST'])
+def volume_up():
+  set_volume(saturate_percent(get_volume() + 5))
+  return redirect('/')
+
+@app.route('/volume_down/', methods=['POST'])
+def volume_down():
+  set_volume(saturate_percent(get_volume() - 5))
+  return redirect('/')
+ 
 def call_run_source1():
   return subprocess.call([app_config['system_path'] + 'run_directory.sh', '/media/source1'])
 
@@ -52,28 +62,66 @@ def call_stop_music():
   return subprocess.call([app_config['system_path'] + 'stop_music.sh'])
 
 def get_index_arguments():
+  music_state = get_music_state()
   return {
     'title': 'My home player',
-    'music_state': get_music_state(),
+    'volume': get_volume(),
+    'music_state': music_state['source'],
+    'song_name': music_state['song_name']
   }
 
 def get_music_state():
   if (state.radio_running):
-    return 'Radio paradise is running'
+    return {
+      'song_name': get_current_radio_song(),
+      'source': 'Radio paradise'
+    } 
   if (state.source1):
-    return 'Source1 is running'
+    return {
+      'song_name': get_current_source_song(),
+      'source': 'Pendrive'
+    }
   else:
-    return 'Music is off'
+    return {
+      'song_name': '-',
+      'source': '-'
+    }
+
+def get_current_source_song():
+  max_tries = 10
+  wait_time_sec = 0.15
+  for t in xrange(max_tries):
+    result = call_system_method('get_current_source_song', [])
+    print result
+    if len(result) > 0:
+      return result
+    time.sleep(wait_time_sec)
+
+  return '-'
+  
+def get_current_radio_song():
+  return call_system_method('get_current_radio_song', [])
+
+def get_volume():
+  percent = call_system_method('get_volume', [])
+  print percent
+  percent = re.sub('\%', '', percent)
+  return int(percent)
 
 def set_volume(percent):
-  print 'set ' + str(percent) + '%'
-  cmd = app_config['system_path'] + 'set_volume.sh'
-  amixer = percent_to_amixer(percent)
-  ret_val = subprocess.call([cmd, amixer])
-  return ret_val
+  #todo should assure that percent is in correct format
+  percent_str = '{}%'.format(saturate_percent(percent))
+  print 'set {}%'.format(percent_str)
+  return call_system_method('set_volume', [percent_str])
 
-def percent_to_amixer(percent):
-  return str(int(percent * (app_config['max_vol'] - app_config['min_vol']) / 100 + app_config['min_vol']))
+def call_system_method(method, arguments):
+  assert isinstance(method, str)
+  assert isinstance(arguments, list)
+
+  cmd = app_config['system_path'] + method + '.sh'
+  result = subprocess.check_output([cmd] + arguments)
+  return result
+
 
 def saturate_percent(percent):
   if (percent > 100):
