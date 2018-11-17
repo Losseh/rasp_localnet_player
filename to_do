@@ -1,5 +1,4 @@
 - log last 10 played songs
-- there's a bug - when we start source play, we must refresh a site to make mplayer show the current songname
 - get the title of radio paradise song
 - buttons should definitely not refresh our site
 - css for buttons
