@@ -29,28 +29,11 @@ p {
 </style>
 
 
-
 <html>
   <head>
     <title>{{ title }}</title>
   </head>
   <body>
-    <h1>Radio control</h1>
-    <p align="center">
-      Music status: {{ music_state }}<br>
-      Currently playing: {{ song_name }}<br>
-      <form action="/run_radio/" method="post">
-        <button name="runRadioBtn" type="submit">Run radio</button>
-      </form>
-
-      <form action="/run_source1/" method="post">
-        <button name="runSource1Btn" type="submit">Run source1</button>
-      </form>
-
-      <form action="/stop_music/" method="post">
-        <button name="stopMusicBtn" type="submit">Stop music</button>
-      </form>
-    </p>
     <h1>Volume control</h1>
     <p align="center">
       Music volume: {{ volume }}<br>
@@ -61,6 +44,25 @@ p {
       <form action="/volume_down/" method="post">
         <button name="volumeDownBtn" type="submit">Vol--</button>
       </form>
+    </p>
+    <h1>Radio control</h1>
+    <p align="center">
+      Music source: {{ source }}<br>
+      Currently playing: {{ song_name }}<br>
+
+      <form action="/stop_music/" method="post">
+        <button name="stopMusicBtn" type="submit">Stop music</button>
+      </form>
+
+      <form action="/run_source1/" method="post">
+        <button name="runSource1Btn" type="submit">Run source1</button>
+      </form>
+
+      {% for radio_id in range(radio_stations| length) %}
+      <form action="{{ url_for('run_radio', radio_id=radio_id) }}" method="post">
+        <button name="runRadioBtn" type="submit">Run {{ radio_stations[radio_id][0] }}</button>
+      </form>
+      {% endfor %}
     </p>
 
   </body>
