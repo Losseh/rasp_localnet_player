@@ -4,6 +4,20 @@ from config import app_config, radio_stations
 import subprocess
 import re
 import time
+import logging
+import sys
+
+
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+
+# root_logger = logging.getLogger("default_logger")
+# root_logger.setLevel(logging.DEBUG)
+#
+# debug_logger = logging.StreamHandler(sys.stdout)
+# debug_logger.setLevel(logging.DEBUG)
+# formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# debug_logger.setFormatter(formatter)
+# root_logger.addHandler(debug_logger)
 
 
 class Util:
@@ -95,10 +109,17 @@ class SystemState:
         for t in xrange(max_tries):
             result = System.call_system_method('get_current_source_song', [])
             if len(result) > 0:
-                return result
+                logging.debug("get_current_source_song: song: {}".format(result))
+                return SystemState.trim_filepath_to_filename_with_last_last_dir(result)
             time.sleep(wait_time_sec)
 
+        logging.debug("get_current_source_song: no song found")
         return '-'
+
+    @staticmethod
+    def trim_filepath_to_filename_with_last_last_dir(filepath):
+        parts = filepath.split('/')
+        return parts[-2] + ' / ' + parts[-1]
 
     @staticmethod
     def get_current_radio_song():
@@ -126,24 +147,31 @@ class Player:
         self.system_state = SystemState()
 
     def stop_music(self):
+        logging.debug("stop_music()")
         self.state.set_music_stopped()
         self.call_stop_music()
 
     def run_radio(self, radio_id):
+        logging.debug("run_radio({})".format(radio_id))
         self.state.set_radio_running(radio_id)
         self.call_stop_music()
         self.call_run_radio(radio_id)
 
     def run_source1(self):
+        logging.debug("run_source()")
         self.state.set_source1_running()
         self.call_stop_music()
         self.call_run_source1()
 
     def decrement_volume(self):
-        self.system_state.set_volume(self.system_state.get_volume() - 5)
+        volume = self.system_state.get_volume() - 5
+        logging.debug("decrement_volume() -> set_volume({})".format(volume))
+        self.system_state.set_volume(volume)
 
     def increment_volume(self):
-        self.system_state.set_volume(self.system_state.get_volume() + 5)
+        volume = self.system_state.get_volume() + 5
+        logging.debug("increment_volume() -> set_volume({})".format(volume))
+        self.system_state.set_volume(volume)
 
     def get_state(self):
         app_state = self.state.as_json()
