@@ -5,19 +5,12 @@ import subprocess
 import re
 import time
 import logging
-import sys
 
 
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-
-# root_logger = logging.getLogger("default_logger")
-# root_logger.setLevel(logging.DEBUG)
-#
-# debug_logger = logging.StreamHandler(sys.stdout)
-# debug_logger.setLevel(logging.DEBUG)
-# formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-# debug_logger.setFormatter(formatter)
-# root_logger.addHandler(debug_logger)
+logging.basicConfig(level=logging.DEBUG,
+                    filename=app_config['logfile'],
+                    filemode='a',
+                    format='%(asctime)s - %(message)s')
 
 
 class Util:

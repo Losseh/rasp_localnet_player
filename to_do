@@ -1,5 +1,6 @@
-- regex to run only some songs from pendrive
 - log last 10 played songs
+
+- regex to run only some songs from pendrive
 - get the title of radio paradise song
 - buttons should definitely not refresh our site
 - css for buttons
