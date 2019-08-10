@@ -1,11 +1,15 @@
 from flask import render_template, redirect
 from app import app
-from config import app_config, radio_stations
+from config import app_config, radio_stations, playlists
 import subprocess
 import re
 import time
 import logging
+from os.path import join, exists
 
+STATE_PLAYLIST = 'PLAYLIST'
+STATE_STOPPED = 'STOPPED'
+STATE_RADIO = 'RADIO'
 
 logging.basicConfig(level=logging.DEBUG,
                     filename=app_config['logfile'],
@@ -50,35 +54,39 @@ class System:
 
 class State:
     def __init__(self):
-        self.state = "STOPPED"
+        self.state = STATE_STOPPED
         self.radio_id = None
+        self.playlist_id = None
         self.source_songs = []
 
     def set_music_stopped(self):
-        self.state = "STOPPED"
+        self.state = STATE_STOPPED
         self.radio_id = None
+        self.playlist_id = None
 
     def set_radio_running(self, radio_id):
-        self.state = "RADIO"
+        self.state = STATE_RADIO
         self.radio_id = radio_id
+        self.playlist_id = None
 
-    def set_source1_running(self):
-        self.state = "SOURCE1"
+    def set_playlist_running(self, playlist_id):
+        self.state = STATE_PLAYLIST
         self.radio_id = None
+        self.playlist_id = playlist_id
 
     def get_state(self):
         return self.state
 
     def as_json(self):
-        texts = {
-            'STOPPED': '-',
-            'SOURCE1': 'Pendrive'
-        }
-
-        if self.state == "RADIO":
+        if self.state == STATE_RADIO:
             text = radio_stations[self.radio_id][0]
+        elif self.state == STATE_PLAYLIST:
+            text = playlists[self.playlist_id][0]
+        elif self.state == STATE_STOPPED:
+            text = '-'
         else:
-            text = texts[self.get_state()]
+            logging.error("unrecognized state {}".format(self.state))
+            text = '? unrecognized state ?'
 
         return {'source': text}
 
@@ -89,9 +97,9 @@ class SystemState:
 
     def get_current_song(self, state):
         x = {
-            'STOPPED': lambda: '-',
-            'RADIO': self.get_current_radio_song,
-            'SOURCE1': self.get_current_source_song
+            STATE_STOPPED: lambda: '-',
+            STATE_RADIO: self.get_current_radio_song,
+            STATE_PLAYLIST: self.get_current_source_song,
         }
         return x[state]()
 
@@ -120,7 +128,6 @@ class SystemState:
 
     @staticmethod
     def set_volume(percent):
-        # todo should assure that percent is in correct format
         percent_str = '{}%'.format(Util.saturate_percent(percent))
         return System.call_system_method('set_volume', [percent_str])
 
@@ -150,11 +157,11 @@ class Player:
         self.call_stop_music()
         self.call_run_radio(radio_id)
 
-    def run_source1(self):
-        logging.debug("run_source()")
-        self.state.set_source1_running()
+    def run_playlist(self, playlist_id):
+        logging.debug("run_playlist({})".format(playlist_id))
+        self.state.set_playlist_running(playlist_id)
         self.call_stop_music()
-        self.call_run_source1()
+        self.call_run_playlist(playlist_id)
 
     def decrement_volume(self):
         volume = self.system_state.get_volume() - 5
@@ -174,8 +181,16 @@ class Player:
         return result
 
     @staticmethod
-    def call_run_source1():
-        return System.run_system_method('run_directory', ['/media/source1'])
+    def call_run_playlist(playlist_id):
+        # todo assure thte path exists
+        subdirectory = playlists[playlist_id][1]
+        directory = join(app_config['music_path'], subdirectory)
+
+        if not exists(directory):
+            logging.error("{} does not exist!".format(directory))
+            return None
+
+        return System.run_system_method('run_directory', [directory])
 
     @staticmethod
     def call_run_radio(radio_id):
@@ -195,15 +210,15 @@ def index():
     return render_template('index.html', **templateData)
 
 
-@app.route('/run_radio/<int:radio_id>', methods=['POST'])
-def run_radio(radio_id):
-    player.run_radio(radio_id)
+@app.route('/run_playlist/<int:playlist_id>', methods=['POST'])
+def run_playlist(playlist_id):
+    player.run_playlist(playlist_id)
     return redirect('/')
 
 
-@app.route('/run_source1/', methods=['POST'])
-def run_source1():
-    player.run_source1()
+@app.route('/run_radio/<int:radio_id>', methods=['POST'])
+def run_radio(radio_id):
+    player.run_radio(radio_id)
     return redirect('/')
 
 
@@ -229,4 +244,5 @@ def get_index_arguments():
     state = player.get_state()
     state.update({'title': 'My home player'})
     state.update({'radio_stations': radio_stations})
+    state.update({'playlists': playlists})
     return state
