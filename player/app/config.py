@@ -19,7 +19,7 @@ app_config['max_vol'] = 400
 # human readable name; stream address
 radio_stations = [
     ("Nowy Swiat [PL]", "http://stream.rcs.revma.com/ypqt40u0x1zuv"),
-    ("357 [PL]", "https://stream.rcs.revma.com/an1ugyygzk8uv"),
+    ("357 [PL]", "http://stream.rcs.revma.com/an1ugyygzk8uv"),
     ("Antyradio [PL]", "http://ant-waw-01.cdn.eurozet.pl:8602/listen.pls"),
     ("Antyradio classics [PL]", "http://antgre-01.cdn.eurozet.pl:8002/listen.pls"),
     ("Trojka [PL]", "http://stream3.polskieradio.pl:8904/listen.pls"),
