@@ -1,4 +1,4 @@
-- endlines from windows?
+- deploy script should simply call autodeploy.sh script
 - run sound from a container
 
 - log last 10 played songs
