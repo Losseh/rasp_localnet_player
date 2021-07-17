@@ -1,5 +1,9 @@
 #!/bin/bash
 HOST="pi@192.168.0.52"
+
+#todo move autodeploy to /home/pi/autodeploy.sh
+#run /home/pi/autodeploy.sh
+
 ssh $HOST sudo pkill python
 ssh $HOST sudo pkill -9 main.py
 ssh $HOST sudo pkill mplayer
