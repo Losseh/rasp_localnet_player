@@ -10,7 +10,7 @@ app_config = {}
 sys_path = os.path.dirname(os.path.abspath(__file__)) + '/system/'
 sys_path += ('raspberry/' if (platform.node() == 'AdrianPi') else 'stub/')
 app_config['system_path'] = sys_path
-app_config['logfile'] = '/home/pi/player_log'
+app_config['logfile'] = '/home/pi/rasp_localnet_player/player_log'
 app_config['music_path'] = '/media/source1/muzyczka'
 
 app_config['min_vol'] = -10000
