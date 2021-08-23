@@ -1,5 +1,5 @@
 * raspberry autostart
 
-/etc/rc.local
+`/etc/rc.local`
 
-sudo python /path/to/main.py &
+`sudo python /path/to/main.py &`
