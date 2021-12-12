@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MAINPATH="/home/pi/rasp_localnet_player/player"
+MAINPATH="/home/pi/rasp_localnet_player"
 
-touch ${MAINPATH}/log
-sudo ${MAINPATH}/main.py < /dev/null &> ${MAINPATH}/log &
+touch ${MAINPATH}/player_log
+sudo ${MAINPATH}/main.py < /dev/null &> ${MAINPATH}/player_log &

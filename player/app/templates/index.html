@@ -56,7 +56,7 @@ p {
 
       {% for playlist_id in range(playlists| length) %}
       <form action="{{ url_for('run_playlist', playlist_id=playlist_id) }}" method="post">
-        <button name="runPlaylistBtn" type="submit">Run {{ playlists[playlist_id][0] }}</button>
+        <button name="runPlaylistBtn" type="submit">- Run {{ playlists[playlist_id] }}</button>
       </form>
       {% endfor %}
 
