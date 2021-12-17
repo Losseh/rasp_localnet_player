@@ -1,6 +1,5 @@
 import logging
-from os.path import exists
-from string import join
+from os.path import exists, join
 
 from state import State
 from system import System

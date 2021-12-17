@@ -1,5 +1,4 @@
 import subprocess
-from flask import logging
 
 
 class System:
@@ -17,5 +16,4 @@ class System:
         assert isinstance(arguments, list)
 
         cmd = self.app_config['system_path'] + method + '.sh'
-        logging.info(cmd)
         return call_type([cmd] + arguments)

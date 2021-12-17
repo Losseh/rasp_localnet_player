@@ -2,8 +2,8 @@ from flask import render_template, redirect
 from config import app_config, radio_stations
 import logging
 
-from player.app import app
-from player.app.source.player import Player
+from . import app
+from source.player import Player
 
 logging.basicConfig(level=logging.DEBUG,
                     filename=app_config['logfile'],

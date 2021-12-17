@@ -37,7 +37,7 @@ class State:
         if self.state == STATE_RADIO:
             text = self.radio_stations[self.radio_id][0]
         elif self.state == STATE_PLAYLIST:
-            text = self.playlists[self.playlist_id][0]
+            text = self.playlists[self.playlist_id]
         elif self.state == STATE_STOPPED:
             text = '-'
         else:
