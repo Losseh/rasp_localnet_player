@@ -11,6 +11,10 @@ button {
   font-family: verdana;
 }
 
+td {
+    line-height:200%;
+}
+
 body {
   background-color: grey;
 }
@@ -26,46 +30,59 @@ p {
   font-family: verdana;
   font-size: 26px;
 }
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
 </style>
 
-
 <html>
-  <head>
-    <title>{{ title }}</title>
-  </head>
   <body>
-    <h1>Volume control</h1>
-    <p align="center">
-      Music volume: {{ volume }}<br>
-      <form action="/volume_up/" method="post">
-        <button name="volumeUpBtn" type="submit">Vol++</button>
-      </form>
-
-      <form action="/volume_down/" method="post">
-        <button name="volumeDownBtn" type="submit">Vol--</button>
-      </form>
-    </p>
-    <h1>Radio control</h1>
+  <h1>Radio control</h1>
     <p align="center">
       Music source: {{ source }}<br>
       Currently playing: {{ song_name }}<br>
-
-      <form action="/stop_music/" method="post">
-        <button name="stopMusicBtn" type="submit">Stop music</button>
-      </form>
-
-      {% for playlist_id in range(playlists| length) %}
-      <form action="{{ url_for('run_playlist', playlist_id=playlist_id) }}" method="post">
-        <button name="runPlaylistBtn" type="submit">- Run {{ playlists[playlist_id] }}</button>
-      </form>
-      {% endfor %}
-
-      {% for radio_id in range(radio_stations| length) %}
-      <form action="{{ url_for('run_radio', radio_id=radio_id) }}" method="post">
-        <button name="runRadioBtn" type="submit">Run {{ radio_stations[radio_id][0] }}</button>
-      </form>
-      {% endfor %}
+      Music volume: {{ volume }}<br>
     </p>
+    <table class="center">
+      <tr>
+        <td>
+          <form action="/volume_up/" method="post">
+            <button name="volumeUpBtn" type="submit">Vol++</button>
+          </form>
+          <form action="/volume_down/" method="post">
+            <button name="volumeDownBtn" type="submit">Vol--</button>
+          </form>
+          <form action="/stop_music/" method="post">
+            <button name="stopMusicBtn" type="submit">Stop music</button>
+          </form>
+        </td>
+      </tr>
+    </table>
 
+    <h1>Source selection</h1>
+    <table class="center">
+      <tr>
+        <td><p align="center">Radio stations</p></td>
+        <td><p align="center">Local directories</p></td>
+      </tr>
+      <tr>
+        <td style="vertical-align:top">
+          {% for radio_id in range(radio_stations| length) %}
+          <form action="{{ url_for('run_radio', radio_id=radio_id) }}" method="post">
+            <button name="runRadioBtn" type="submit">{{ radio_stations[radio_id][0] }}</button>
+          </form>
+          {% endfor %}
+        </td>
+        <td style="vertical-align:top">
+          {% for playlist_id in range(playlists| length) %}
+          <form action="{{ url_for('run_playlist', playlist_id=playlist_id) }}" method="post">
+            <button name="runPlaylistBtn" type="submit">{{ playlists[playlist_id] }}</button>
+          </form>
+          {% endfor %}
+        </td>
+      </tr>
+    </table>
   </body>
 </html>
