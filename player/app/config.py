@@ -25,8 +25,8 @@ else:
 radio_stations = [
     ("Nowy Swiat [PL]", "http://stream.rcs.revma.com/ypqt40u0x1zuv"),
     ("357 [PL]", "http://stream.rcs.revma.com/an1ugyygzk8uv"),
-    ("Antyradio [PL]", "http://ant-waw-01.cdn.eurozet.pl:8602/listen.pls"),
-    ("Antyradio classics [PL]", "http://antgre-01.cdn.eurozet.pl:8002/listen.pls"),
+    ("Antyradio [PL]", "http://an.cdn.eurozet.pl/ant-waw.mp3"),
+    ("Antyradio classics [PL]", "https://n-4-2.dcs.redcdn.pl/sc/o2/Eurozet/live/antyradio.livx?audio=5"),
     ("Trojka [PL]", "http://stream3.polskieradio.pl:8904/listen.pls"),
     ("Radio paradise [ENG]", "http://stream-uk1.radioparadise.com/mp3-192"),
     ("BBC Radio 4 [ENG]", "http://www.listenlive.eu/bbcradio4.m3u"),
