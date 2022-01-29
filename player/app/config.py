@@ -26,11 +26,8 @@ radio_stations = [
     ("Nowy Swiat [PL]", "http://stream.rcs.revma.com/ypqt40u0x1zuv"),
     ("357 [PL]", "http://stream.rcs.revma.com/an1ugyygzk8uv"),
     ("Antyradio [PL]", "http://an.cdn.eurozet.pl/ant-waw.mp3"),
-    ("Antyradio classics [PL]", "https://n-4-2.dcs.redcdn.pl/sc/o2/Eurozet/live/antyradio.livx?audio=5"),
+    ("Antyradio classics [PL]", "https://n-4-2.dcs.redcdn.pl/sc/o2/Eurozet/live/antyradio.livx?audio=5 -cache 128"),
     ("Trojka [PL]", "http://stream3.polskieradio.pl:8904/listen.pls"),
     ("Radio paradise [ENG]", "http://stream-uk1.radioparadise.com/mp3-192"),
-    ("BBC Radio 4 [ENG]", "http://www.listenlive.eu/bbcradio4.m3u"),
-    ("MDR Kultur [DE]", "http://avw.mdr.de/streams/284310-0_aac_high.m3u"),
-    ("SWR2 Archivradio [DE]", "http://mp3-live.swr.de/swr2raka01_m.m3u"),
-    ("RTVA Canal Flamenco [ES]", "http://canalflamenco.rtva.stream.flumotion.com/rtva/canalflamenco.mp3.m3u")
+    ("BBC Radio 4 [ENG]", "http://a.files.bbci.co.uk/media/live/manifesto/audio/simulcast/hls/nonuk/sbr_low/ak/bbc_radio_fourfm.m3u8")
 ]
